@@ -1,0 +1,150 @@
+/*--------------text styles--------------*/
+
+.size8 p a {
+	margin: 0;
+	padding: 0;
+	color: #7E7979;
+	text-decoration: none;
+	line-height: 1.4;
+}
+.size8 p a:hover {  
+	color: #84827F;
+}
+p {
+	font-size: 110%;
+	color: #7E7979;
+	line-height: 1.5;
+	margin: 0;
+	padding: 12px 0 0 0;
+	font-weight: normal;
+}
+p a {
+	color: #7E7979;
+	text-decoration: none;
+}
+p a:hover {
+	color: #A29C9C;
+}
+p.intro {
+	margin: 0;
+	padding: 12px 400px 0 0;
+}
+p.link  {
+	text-decoration: none;
+	display:block;
+
+	}
+p.link a {
+	color: #595454;
+	text-decoration: none;
+	background:url(../images/linkarrow.png) no-repeat center right;
+	padding-right: 15px
+	}
+p.link a:hover {
+	color: #7E7979;
+	text-decoration: none;
+	background:url(../images/linkarrow_over.png) no-repeat center right;
+	padding-right: 15px
+	}
+p.record {
+	margin: 0 0 15px 0;
+	padding: 6px 0 0 0;
+}
+
+p.record a {
+	margin: 10px 0 0 0;
+	padding: 20px 0 0 0;
+	color: #00aca1;
+	text-decoration: none;
+	line-height: 2.6;
+}
+
+p.title {
+	font-size: 100%;
+	color: #211F1F;
+	padding: 6px 30px 10px 0;
+	height: 27px;
+	display: block;
+	overflow: hidden;
+	margin: 0 0 2px 0;
+}
+p.title a {
+	color: #595454;
+	text-decoration: none;
+}
+p.title a:hover {
+	color: #1B191A;
+	text-decoration: none;
+}
+
+h1 {
+	font-size: 170%;
+	color: #858848;
+	padding: 0 0 12px 0;
+	margin: 0;
+	font-weight: normal;
+	line-height: 1;
+}
+h1.header {
+	display:block;
+	width: 620px;
+	border-bottom:1px solid #433F3F;
+}
+h1.headerw {
+	display:block;
+	width: 940px;
+	border-bottom:1px solid #433F3F;
+}
+
+h2 {
+	font-size: 135%;
+	color: #545050;
+	margin: 10px 0 0 0;
+	padding: 0;
+	font-weight: normal;
+	line-height: 1.2;
+	text-decoration:none;
+}
+h2.space {
+	color: #545050;
+	font-size: 150%;
+	margin: 20px 0 10px 0;
+}
+h2.cred {
+	color: #545050;
+	margin: 20px 0 0 0;
+}
+h2.name {
+	color: #858846;
+	font-size: 130%;
+	margin: 0;
+}
+h2.title {
+	color: #545050;
+	font-size: 135%;
+	margin: 0;
+}
+h2.on {
+	color: #00ACA1;
+	font-size: 130%;
+	margin: 0;
+}
+h2.label {
+	color: #B5B4AF;
+	font-size: 110%;
+	margin: 0;
+	display:block;
+	text-align: right;
+	background-color: #545050;
+	padding: 2px 10px 3px 0;
+}
+
+h3 {
+	font-size: 150%;
+	color: #4E4A4A;
+	margin: 0;
+	padding: 0 18px 0 18px;
+	font-weight: normal;
+	line-height: 1.2;
+	text-decoration: none;
+}

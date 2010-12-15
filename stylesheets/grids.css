@@ -1,0 +1,143 @@
+@media screen and (max-width: 319px) {
+	.line {
+		float: none !important; 
+		width: auto !important;
+		}
+	}
+.line:after,.last:after {
+	clear:both;
+	display:block;
+	visibility:hidden;
+	overflow:hidden;
+	height:0 !important;
+	line-height:0;
+	font-size:xx-large;
+	content:" x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x ";
+	}
+.line{
+	*zoom:1;
+	}
+/*--------------grid sizes--------------*/
+.line {
+	float: left;
+	width: 940px;
+	margin: 0;
+	padding: 0;
+	}
+.linesml {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	}
+.size1 {
+	margin: 20px 20px 0 0;
+	padding: 10px 10px 30px 10px;
+	width: 280px;
+	float: left;
+	background-color: #f2f0e9;
+
+}
+
+.size2 {
+	margin: 16px 20px 0 0;
+	padding: 10px;
+	width: 600px;
+	float: left;
+	background-color: #f2f0e9;
+}
+.size3 {
+	margin: 20px 20px 0 0;
+	padding: 0;
+	width: 300px;
+	float: left;
+}
+.size4 {
+	margin: 16px 0 0 0;
+	padding: 0 0  8px 0;
+	width: 300px;
+	float: left;
+}
+.size5 {
+	margin: 0;
+	padding: 10px 50px 20px 0;
+	width: 570px;
+	float: left;
+}
+.size6 {
+	margin: 0;
+	padding: 0px;
+	width: 620px;
+	float: left;
+}
+.size7 {
+	margin: 12px 0 0 0;
+	padding: 0px;
+	width: 300px;
+	float: right;
+}
+.size8 {
+	margin: 20px 20px 0 0;
+	padding: 0;
+	width: 440px;
+	float: left;
+}
+.size9 {
+	margin: 20px 20px 0 0;
+	padding: 0;
+	width: 160px;
+	float: left;
+}
+
+.size10 {
+	border-top:2px dotted #322F2F;
+	margin: 50px 0 0 0;
+	padding: 50px 0 0 0;
+	width: 620px;
+	float: left;
+}
+.size11 {
+	border-top:2px dotted #322F2F;
+	margin: 50px 0 0 0;
+	padding: 20px 200px 0 0;
+	width: 440px;
+	float: left;
+}
+.middle {
+	float:right;
+	*zoom:1;
+	}
+	
+.last {
+	margin-right:0;
+	*zoom:1;
+	}
+
+.borderbottom {
+	border-bottom:1px solid #433F3F;
+}
+.bbdash {
+	border-bottom:2px dotted #322F2F;
+}
+.pb12 {
+	padding-bottom:8px
+}
+.pt10 {
+	padding-top:25px;
+}
+.mt20 {
+	margin-top: 30px;
+}
+
+.mt0 {
+	margin-top: 0px;
+}
+.mt10 {
+	margin-top: 10px;
+}
+
+.fr {
+	float:right;
+}
+.fl {
+	float:left;
+}
