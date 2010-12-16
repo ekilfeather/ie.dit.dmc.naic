@@ -19,8 +19,7 @@ declare function local:filter-name($nametext) as xs:string {
     let $filteredtext := replace($nametext, ",$", "")
     return $filteredtext
 };
-
-        
+    
 let $perpage := xs:integer(request:get-parameter("perpage", "6"))
 let $start := xs:integer(request:get-parameter("start", "0"))
 let $order-request := xs:string(request:get-parameter("order", "creator"))
