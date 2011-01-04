@@ -20,6 +20,7 @@ declare function local:filter-name($nametext) as xs:string {
     return $filteredtext
 };
     
+
 let $perpage := xs:integer(request:get-parameter("perpage", "6"))
 let $start := xs:integer(request:get-parameter("start", "0"))
 let $order-request := xs:string(request:get-parameter("order", "creator"))
@@ -39,7 +40,6 @@ let $url-params-without-q := replace(request:get-query-string(), concat('&amp;q=
 let $url-params-without-q-or-vtls := replace($url-params-without-vtls, concat('&amp;q=', $q ) , '')
 
 let $records :=
-    
     if ($q != '' and $exact-q = "true") then ( 
         for $hit in $raw-records//marc:datafield[@tag="100"]/marc:subfield[@code="a"]
         where $hit = $raw-q
@@ -70,14 +70,16 @@ let $results-set :=
     for $record in $records
     
     let $vtls := data($record//marc:controlfield[@tag="001"])
+    let $marc-creator := $record//marc:datafield[@tag="100"]/marc:subfield[@code="a"]
     let $clean-record := $clean-records/record/identifier[contains(.,$vtls)]/..
     let $creator := data($clean-record/creator)
     let $dates := data($clean-record/dates)
     let $title := data($clean-record/title)
+    let $marc-title := $record//marc:datafield[@tag="245"]/marc:subfield[@code="a"]
     (: let $subtitle := data($record//marc:datafield[@tag="245"]/marc:subfield[@code="b"])
     let $attribution := data($record//marc:datafield[@tag="245"]/marc:subfield[@code="c"]) :)
     
-    order by (if ($order-request = "title") then ($title) else ($creator) ) 
+    order by (if ($order-request = "title") then ($marc-title) else ($marc-creator) )
     
     return 
   
