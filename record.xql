@@ -32,7 +32,7 @@ let $clean-record := $clean-records/record/identifier[contains(.,$vtls-q)]/..
 let $creator := data($record//marc:datafield[@tag="100"]/marc:subfield[@code="a"])
 let $clean-creator := data($clean-record/creator)
 let $clean-dates := if (functx:all-whitespace($clean-record/dates)) then () else (concat("(", normalize-space(data($clean-record/dates)), ")"))
-let $clean-title := data($clean-record/title)
+let $clean-title := if ($vtls-q != "null") then ( data($clean-record/title) ) else ( "Browse the Digital Library" )
 let $clean-subtitle := data($clean-record/subtitle)
 let $top-audio := if ($clean-record/audio) then ( <span class="selection"><a href="audio/{$vtls-q}.mp3"><img src="images/mp3_play.png"  border="0"/></a></span> ) else ()
 let $bottom-audio := if ($clean-record/audio) then ( <p class="record"><a href="audio/{$vtls-q}.mp3">Download MP3</a></p> ) else ()
@@ -132,7 +132,22 @@ let $pagination-links :=
                 }
             </span>
         </div> 
-
+let $other-records-div :=  if ($vtls-q != "null") then (       
+            <div class="size3  last pages">
+                Records for this Composer 
+                {$other-records}
+            </div> ) else ()
+            
+let $main-title-div :=   if ($vtls-q != "null") then (          
+            <div class="size8">
+                <h2 class="title">{normalize-space($clean-creator)}&#160;{$clean-dates}</h2>
+            </div> ) else (
+            
+            <div class="size8">
+                <h2 class="title">Select a composer or enter a search term.</h2>
+            </div> 
+            )
+            
 let $pdf := if ($vtls-q != "null") then (<span class="selection"><a href="sheet_music/pdfs/{$vtls}.pdf">Download PDF</a></span>) else ()
 let $navnum := if ($vtls-q != "null") then (
                         <div class="navNum">
@@ -142,12 +157,7 @@ let $navnum := if ($vtls-q != "null") then (
                         
                         
 let $size6 := if ($vtls-q = "null") then 
-                (
-                    <div class="size6">
-                        <p>Please select a composer on the left or else carry out a search.</p>
-                    </div>
-                
-                ) else (                 
+                ( ) else (                 
                 <div class="size6">
                     <div class="size3">
                         <h2 class="title">Title</h2>
@@ -158,8 +168,8 @@ let $size6 := if ($vtls-q = "null") then
                         </p>
                         {$bottom-audio}
                     </div>
-    
                 </div> )
+                
 let $size2 := if ($vtls-q != "null") then (                
                 <div class="size2">
                     <div class="linesml">
@@ -174,16 +184,7 @@ let $size2 := if ($vtls-q != "null") then (
                     <img src="sheet_music/{$vtls}/{$vtls}_{$padded-start}.jpg" alt="" />
                     {$pagination-links}  
                 </div> ) else (
-                <div class="size2">
-                    <div class="linesml">
-                        <span class="previousnav">
-
-                        </span>
-                        <span class="nextnav">
-
-                        </span>
-
-                    </div> 
+                <div class="size2blank">
                 </div>
                 )
         
@@ -210,7 +211,7 @@ return
                                 <li class="space">//</li>
                                 <li><a href="performance.html">PERFORMANCE</a></li>
                                 <li class="space">//</li>
-                                <li class="selected"><a href="catalogue.xql">DIGITAL LIBRARY</a></li>
+                                <li class="selected"><a href="record.xql">DIGITAL LIBRARY</a></li>
                                 <li class="space">//</li>
                                 <li><a href="credits.html">ACKNOWLEDGEMENTS</a></li>
                         </ul>
@@ -227,20 +228,15 @@ return
                 </div><!-- close size7 -->
             </div><!-- close line -->
         
-            <div class="size8">
-                <h2 class="title">{normalize-space($clean-creator)}&#160;{$clean-dates}</h2>
-            </div><!-- close size3 -->
+            {$main-title-div}
             <div class="size9">
                 {$top-audio}
                 {$pdf}
             </div><!-- close size3 -->
-            <div class="size3  last pages">
-                Records for this Composer 
-                {$other-records}
-            </div><!-- close size3 pages -->
+            {$other-records-div}
             
             <div class="line">  
-{$size2}
+                {$size2}
             
             
                 <div class="size4 last">

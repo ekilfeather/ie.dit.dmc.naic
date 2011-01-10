@@ -31,8 +31,7 @@ let $creator-select := if ($order-request = "creator") then ( <option value="cre
 let $title-select := if ($order-request = "title") then ( <option value="title" selected="selected">Title</option> ) else ( <option value="title">Title</option> )
 
 let $raw-q := request:get-parameter("q", "")
-let $q := replace(lower-case($raw-q), "[&amp;&quot;-*;-`~!@#$%^*()_+-=\[\]\{\}\|';:/.,?(:]", "")
-(::)
+let $q := replace(lower-case($raw-q), "[&amp;&quot;-*;-`~!@#$%^*()_+-=\[\]\{\}\|';:/.,?(:]", "") (::)
 
 let $vtls := xs:string(request:get-parameter("vtls", ""))
 let $url-params-without-vtls := replace(request:get-query-string(), concat('&amp;vtls=', $vtls ) , '')
@@ -218,7 +217,7 @@ return
                                 <li class="space">//</li>
                                 <li><a href="performance.html">PERFORMANCE</a></li>
                                 <li class="space">//</li>
-                                <li class="selected"><a href="catalogue.xql">DIGITAL LIBRARY</a></li>
+                                <li class="selected"><a href="record.xql">DIGITAL LIBRARY</a></li>
                                 <li class="space">//</li>
                                 <li><a href="credits.html">ACKNOWLEDGEMENTS</a></li>
                         </ul>
@@ -229,7 +228,7 @@ return
             <div class="imagebrand"></div><!-- close imagebrand -->
                 
             <div class="line">
-                <h1 class="header fl">Browse the Digital Library</h1>
+                <h1 class="header fl">Search the Digital Library</h1>
                 <div class="size7 last fr">    
 
                         {$search-input}
@@ -240,11 +239,11 @@ return
             </div><!-- close line -->
         
             <div class="size3">
-                <span class="options">Sort Library by
+                <span class="options"><!-- Sort Library by
                     <select id="sortoptions" name="sortoptions" class="sort">                
                         {$creator-select}
                         {$title-select}
-                    </select>
+                    </select> -->
                 </span>
             </div><!-- close size3 -->
             <div class="size3">
