@@ -20,28 +20,28 @@ declare function local:filter-name($nametext) as xs:string {
     return $filteredtext
 };
 
-let $vtls := xs:string(request:get-parameter("vtls", ""))
+let $vtls-q := xs:string(request:get-parameter("vtls", "null"))
 let $start-q := xs:string(request:get-parameter("start", "1"))
 let $padded-start := functx:pad-integer-to-length($start-q, 2)
 let $start := xs:integer($start-q) 
 let $url-params-without-start := replace(request:get-query-string(), '&amp;start=\d+', '')
 
-let $record := $raw-records//marc:controlfield[@tag='001'][.=$vtls]/..
-let $clean-record := $clean-records/record/identifier[contains(.,$vtls)]/..
+let $record := $raw-records//marc:controlfield[@tag='001'][.=$vtls-q]/..
+let $clean-record := $clean-records/record/identifier[contains(.,$vtls-q)]/..
     
 let $creator := data($record//marc:datafield[@tag="100"]/marc:subfield[@code="a"])
 let $clean-creator := data($clean-record/creator)
 let $clean-dates := if (functx:all-whitespace($clean-record/dates)) then () else (concat("(", normalize-space(data($clean-record/dates)), ")"))
 let $clean-title := data($clean-record/title)
 let $clean-subtitle := data($clean-record/subtitle)
-let $top-audio := if ($clean-record/audio) then ( <span class="selection"><a href="audio/{$vtls}.mp3"><img src="images/mp3_play.png"  border="0"/></a></span> ) else ()
-let $bottom-audio := if ($clean-record/audio) then ( <p class="record"><a href="audio/{$vtls}.mp3">Download MP3</a></p> ) else ()
+let $top-audio := if ($clean-record/audio) then ( <span class="selection"><a href="audio/{$vtls-q}.mp3"><img src="images/mp3_play.png"  border="0"/></a></span> ) else ()
+let $bottom-audio := if ($clean-record/audio) then ( <p class="record"><a href="audio/{$vtls-q}.mp3">Download MP3</a></p> ) else ()
 
 let $file-count := count($record//marc:datafield[@tag="856"]/marc:subfield[@code="u"])
 let $other-records := 
     for $record at $count in $raw-records//marc:datafield[@tag="100"]/marc:subfield[@code="a"][.=$creator]
     let $other-vtls := data($record/../../marc:controlfield[@tag="001"])
-    let $anchor := if ($other-vtls eq $vtls) then ( <a class="selected" href="record.xql?vtls={$other-vtls}">{$count}</a> ) else ( <a href="record.xql?vtls={$other-vtls}">{$count}</a> )
+    let $anchor := if ($other-vtls eq $vtls-q) then ( <a class="selected" href="record.xql?vtls={$other-vtls}">{$count}</a> ) else ( <a href="record.xql?vtls={$other-vtls}">{$count}</a> )
     return $anchor
 
 let $composers :=
@@ -131,11 +131,61 @@ let $pagination-links :=
                         (<a href="{concat('?', $url-params-without-start, '&amp;start=', $start + 1 )}">&gt;&gt;</a> )
                 }
             </span>
-        </div>
+        </div> 
 
+let $pdf := if ($vtls-q != "null") then (<span class="selection"><a href="sheet_music/pdfs/{$vtls}.pdf">Download PDF</a></span>) else ()
+let $navnum := if ($vtls-q != "null") then (
+                        <div class="navNum">
+                            Page {$start} of {$file-count}
+                        </div>
+                        ) else ()
+                        
+                        
+let $size6 := if ($vtls-q = "null") then 
+                (
+                    <div class="size6">
+                        <p>Please select a composer on the left or else carry out a search.</p>
+                    </div>
+                
+                ) else (                 
+                <div class="size6">
+                    <div class="size3">
+                        <h2 class="title">Title</h2>
+                        <p class="record">{$clean-title}&#160;{$clean-subtitle}</p>
+                        <h2 class="title">Details</h2>
+                        <p>{$details}<br/>
+                            <a href="http://catalogue.nli.ie/Record/{$vtls}">Read more...</a>
+                        </p>
+                        {$bottom-audio}
+                    </div>
     
+                </div> )
+let $size2 := if ($vtls-q != "null") then (                
+                <div class="size2">
+                    <div class="linesml">
+                        <span class="previousnav">
+                            {$previous-nav}
+                        </span>
+                        <span class="nextnav">
+                            {$next-nav}
+                        </span>
+                    {$navnum}
+                    </div>
+                    <img src="sheet_music/{$vtls}/{$vtls}_{$padded-start}.jpg" alt="" />
+                    {$pagination-links}  
+                </div> ) else (
+                <div class="size2">
+                    <div class="linesml">
+                        <span class="previousnav">
 
+                        </span>
+                        <span class="nextnav">
 
+                        </span>
+
+                    </div> 
+                </div>
+                )
         
 return
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -182,28 +232,15 @@ return
             </div><!-- close size3 -->
             <div class="size9">
                 {$top-audio}
-                <span class="selection"><a href="sheet_music/pdfs/{$vtls}.pdf">Download PDF</a></span>
+                {$pdf}
             </div><!-- close size3 -->
             <div class="size3  last pages">
                 Records for this Composer 
                 {$other-records}
             </div><!-- close size3 pages -->
+            
             <div class="line">  
-                <div class="size2">
-                    <div class="linesml">
-                        <span class="previousnav">
-                            {$previous-nav}
-                        </span>
-                        <span class="nextnav">
-                            {$next-nav}
-                        </span>
-                        <div class="navNum">
-                            Page {$start} of {$file-count}
-                        </div><!-- close navNum -->
-                    </div><!-- close linesml -->
-                    <img src="sheet_music/{$vtls}/{$vtls}_{$padded-start}.jpg" alt="" />
-                    {$pagination-links}  <!-- close linesml navNum -->
-                </div><!-- close size2 -->
+{$size2}
             
             
                 <div class="size4 last">
@@ -212,18 +249,10 @@ return
                         {$composers}
                     </ul>
                 </div><!-- close size4 last-->
-                <div class="size6">
-                    <div class="size3">
-                        <h2 class="title">Title</h2>
-                        <p class="record">{$clean-title}&#160;{$clean-subtitle}</p>
-                        <h2 class="title">Details</h2>
-                        <p>{$details}<br/>
-                            <a href="http://catalogue.nli.ie/Record/{$vtls}">Read more...</a>
-                        </p>
-                        {$bottom-audio}
-                    </div><!-- close size3 -->
-    
-                </div><!-- close size6 -->
+                {$size6}
+                
+                
+
             </div><!-- close line -->
             <div class="clearfix"></div><!-- close clearfix -->
             <div class="base">
